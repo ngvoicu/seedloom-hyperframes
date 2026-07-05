@@ -45,7 +45,7 @@ An agent producing a 60-second explainer, end to end:
 
 ```bash
 # 1. Narration first — all picture timing derives from real audio
-seedloom tts "$(cat script.md)" --voice en_female_vivi_uranus_bigtts --tone "clear, warm"
+seedloom tts "$(cat script.md)" --voice en_male_tim_uranus_bigtts --tone "clear, warm"
 npx hyperframes transcribe assets/narration.mp3        # → word timings for captions
 
 # 2. Stills: title plates and first frames (Seedream here; see provider selection below)

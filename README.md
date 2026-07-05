@@ -41,7 +41,7 @@ Keys: `ARK_API_KEY` (video / images / QA) and `BYTEPLUS_VOICE_API_KEY` (TTS) are
 
 ## What a session looks like
 
-An agent producing a 60-second explainer, end to end:
+An agent producing a 60-second explainer, end to end. (Examples use `seedloom`; if it isn't on PATH, prefix with `npx -y github:ngvoicu/seedloom`.)
 
 ```bash
 # 1. Narration first — all picture timing derives from real audio
@@ -74,7 +74,7 @@ Every seedloom run leaves its artifacts + a `result.json` in `./seedloom-runs/<i
 | Seedloom output | HyperFrames input |
 |---|---|
 | `clip.mp4` | a `<video>` layer (framework owns playback) |
-| `narration.mp3\|wav` + transcription | voiceover track + word-timed captions `[{id,text,start,end}]` |
+| `narration.mp3\|wav` (+ `narration.words.json` from `--words` on TTS 1.0/ICL voices, or transcription) | voiceover track + word-timed captions `[{id,text,start,end}]` |
 | `image.png` | stills, title cards, background plates |
 | `last_frame.png` | the *next* clip's `--image` — visual continuity across shots |
 

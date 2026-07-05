@@ -18,7 +18,7 @@ The pipeline: **generate media as local files** (Seedloom or another provider) �
 |---|---|
 | `clip.mp4` | `<video>` layer — direct child of the host root; the framework owns playback |
 | `narration.mp3\|wav` | the voiceover track |
-| word timings (`npx hyperframes transcribe narration.wav`) | captions / karaoke — flat `[{id,text,start,end}]` |
+| word timings — `seedloom tts --words` writes `narration.words.json` natively on TTS 1.0/ICL voices; otherwise `npx hyperframes transcribe narration.wav` | captions / karaoke — flat `[{id,text,start,end}]` |
 | `image.png` | stills, title cards, background plates |
 | `last_frame.png` (from `--last-frame`) | the `--image` of the NEXT clip — visual continuity across shots |
 
@@ -27,7 +27,7 @@ Every seedloom run writes its artifacts + `result.json` under `./seedloom-runs/<
 ## The pipeline
 
 1. **Script first.** Write the narration + beat plan. Nothing is generated before the words exist.
-2. **Narration.** `seedloom tts "<text>" --voice <id>` (Seed voices, `--tone "warm, reassuring"` for delivery) — or HyperFrames' own TTS (`npx hyperframes tts`) if no voice key. Then `npx hyperframes transcribe` for word timings. **All picture timing derives from the real audio durations** — never stretch audio to fit picture.
+2. **Narration.** `seedloom tts "<text>" --voice <id>` (Seed voices, `--tone "warm, reassuring"` for delivery) — or HyperFrames' own TTS (`npx hyperframes tts`) if no voice key. Then word timings: `--words` provides them natively on TTS 1.0/ICL voices (`narration.words.json`); otherwise `npx hyperframes transcribe`. **All picture timing derives from the real audio durations** — never stretch audio to fit picture.
 3. **Stills.** Generate title cards, plates, and first frames (see "Choosing an image generator").
 4. **Motion.** Build the full composition with stills + typography first (the no-i2v cut). Then upgrade the shots that earn it: `seedloom video "<shot prompt>" --image first.png --dur 5 --model fast` for drafts. Chain shots with `--last-frame` → next shot's `--image`.
 5. **QA before integrating.** `seedloom qa clip.mp4 "<the prompt>"` — seed-1.8 watches the clip and reports artifacts/mismatches for cents, before you spend human review. Reject clips that are worse than their still fallback; log why.
